@@ -28,6 +28,7 @@ pub fn build(b: *std.Build) void {
     clay_lib.addIncludePath(clay_src.path(""));
     clay_lib.addCSourceFile(.{
         .file = b.path("src/clay.c"),
+        .flags = &.{"-fPIC"},
     });
     b.installArtifact(clay_lib);
 
