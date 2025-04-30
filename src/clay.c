@@ -24,10 +24,5 @@ bool Clay__NextHovered() {
     Clay_LayoutElement* parentElement = Clay__GetOpenLayoutElement();
     Clay_ElementId nextId = Clay__HashNumber(parentElement->childrenOrTextContent.children.length, parentElement->id);
 
-    for (int i = 0; i < Clay__pointerOverIds.length; ++i) {
-        if (Clay__ElementIdArray_Get(&Clay__pointerOverIds, i)->id == nextId.id) {
-            return true;
-        }
-    }
-    return false;
+    return Clay_PointerOver(nextId);
 }

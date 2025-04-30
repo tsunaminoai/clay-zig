@@ -6,12 +6,14 @@
       url = "github:cachix/devenv";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zig.url = "github:mitchellh/zig-overlay";
   };
 
   outputs = {
     nixpkgs,
     devenv,
     flake-utils,
+    zig,
     ...
   } @ inputs:
     flake-utils.lib.eachDefaultSystem (
@@ -45,6 +47,8 @@
                 xorg.libXcursor
                 xorg.libXi
                 xorg.libXext
+
+                zls
               ];
             }
           ];

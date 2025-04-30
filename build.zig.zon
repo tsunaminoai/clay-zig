@@ -5,8 +5,12 @@
     .fingerprint = 0xeddbd686c4b526c0,
     .dependencies = .{
         .clay_src = .{
-            .url = "git+https://github.com/nicbarker/clay#c9e1a63378ecfba448ecd42796838264b10adafb",
-            .hash = "122051848fc0b06aac52586cd63a202d602a37c63c9cf0bd4c4e6ce6d13f5cef44d4",
+            .url = "git+https://github.com/nicbarker/clay#6d23a35d1596f139998b2994a63a1d5a982e713b",
+            .hash = "N-V-__8AAO23UQAhH_BQUUOoxHaKW4XAbiVmGlGJO2sApBST",
+        },
+        .raylib_zig = .{
+            .url = "git+https://github.com/Not-Nik/raylib-zig?ref=devel#d6c77762cbdebbf56d3ff101142048dfae2496c4",
+            .hash = "raylib_zig-5.6.0-dev-KE8REBMyBQCnQ9RBhHsoSKr97XmDHF84wx3g0UiMRDxj",
         },
     },
     .paths = .{

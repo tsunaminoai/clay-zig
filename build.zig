@@ -1,4 +1,5 @@
 const std = @import("std");
+const rlz = @import("raylib_zig");
 
 pub fn enableRaylibRenderer(
     compile_step: *std.Build.Step.Compile,
@@ -17,7 +18,12 @@ pub fn enableRaylibRenderer(
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
-
+    const raylib_dep = b.dependency("raylib_zig", .{
+        .target = target,
+        .optimize = optimize,
+        .linux_display_backend = rlz.LinuxDisplayBackend.X11,
+        .shared = true,
+    });
     const clay_lib = b.addStaticLibrary(.{
         .name = "clay",
         .target = target,
@@ -30,6 +36,7 @@ pub fn build(b: *std.Build) void {
         .file = b.path("src/clay.c"),
         .flags = &.{"-fPIC"},
     });
+    clay_lib.linkLibC();
     b.installArtifact(clay_lib);
 
     const clay_mod = b.addModule("clay", .{
@@ -37,6 +44,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+    clay_mod.addImport("raylib", raylib_mod);
 
     const renderer_raylib_mod = b.addModule("renderer_raylib", .{
         .root_source_file = b.path("src/renderer_raylib.zig"),
