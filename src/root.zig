@@ -8,7 +8,9 @@ pub const cdef = struct {
     pub extern fn Clay_MinMemorySize() u32;
     pub extern fn Clay_CreateArenaWithCapacityAndMemory(capacity: u32, offset: [*c]u8) Arena;
     pub extern fn Clay_SetPointerState(position: Vector2, pointer_down: bool) void;
-    pub extern fn Clay_Initialize(arena: Arena, layout_size: Dimensions, error_handler: ErrorHandler) void;
+    pub extern fn Clay_Initialize(arena: Arena, layout_size: Dimensions, error_handler: ErrorHandler) *anyopaque;
+    pub extern fn Clay_SetCurrentContext(context: *anyopaque) void;
+    pub extern fn Clay_GetCurrentContext() *anyopaque;
     pub extern fn Clay_UpdateScrollContainers(enable_drag_scrolling: bool, scroll_delta: Vector2, delta_time: f32) void;
     pub extern fn Clay_SetLayoutDimensions(size: Dimensions) void;
     pub extern fn Clay_BeginLayout() void;
@@ -27,9 +29,11 @@ pub const cdef = struct {
     pub extern fn Clay_SetDebugModeEnabled(enabled: bool) void;
     pub extern fn Clay_SetCullingEnabled(enabled: bool) void;
     pub extern fn Clay_SetMaxElementCount(max_element_count: u32) void;
+    pub extern fn Clay_GetMaxMeasureTextCacheWordCount() i32;
+    pub extern fn Clay_ResetMeasureTextCache() void;
 
     // Internal API functions required by macros
-    pub extern fn Clay__SetMaxMeasureTextCacheWordCount(max_measure_text_cache_word_count: u32) void;
+    pub extern fn Clay__SetMaxMeasureTextCacheWordCount(max_measure_text_cache_word_count: i32) void;
     pub extern fn Clay__OpenElement() void;
     pub extern fn Clay__CloseElement() void;
     pub extern fn Clay__StoreLayoutConfig(config: LayoutConfig) *LayoutConfig;
@@ -37,6 +41,7 @@ pub const cdef = struct {
     pub extern fn Clay__AttachId(id: ElementId) void;
     pub extern fn Clay__AttachLayoutConfig(config: *LayoutConfig) void;
     pub extern fn Clay__AttachElementConfig(config: *anyopaque, type: ElementConfigType) void;
+    pub extern fn Clay__ConfigureOpenElement(type: ElementConfigType) void;
     pub extern fn Clay__StoreRectangleElementConfig(config: RectangleConfig) *RectangleConfig;
     pub extern fn Clay__StoreTextElementConfig(config: TextConfig) *TextConfig;
     pub extern fn Clay__StoreImageElementConfig(config: ImageConfig) *ImageConfig;
@@ -45,6 +50,7 @@ pub const cdef = struct {
     pub extern fn Clay__StoreScrollElementConfig(config: ScrollConfig) *ScrollConfig;
     pub extern fn Clay__StoreBorderElementConfig(config: BorderConfig) *BorderConfig;
     pub extern fn Clay__HashString(key: String, offset: u32, seed: u32) ElementId;
+    pub extern fn Clay__GetParentElementId() ElementId;
     pub extern fn Clay__Noop() void;
     pub extern fn Clay__OpenTextElement(text: String, text_config: *TextConfig) void;
     pub extern fn Clay__GetOpenLayoutElementId() ElementId;
@@ -535,6 +541,10 @@ pub const isDebugModeEnabled = cdef.Clay_IsDebugModeEnabled;
 pub const setDebugModeEnabled = cdef.Clay_SetDebugModeEnabled;
 pub const setCullingEnabled = cdef.Clay_SetCullingEnabled;
 pub const setMaxElementCount = cdef.Clay_SetMaxElementCount;
+pub const getMaxMeasureTextCacheWordCount = cdef.Clay_GetMaxMeasureTextCacheWordCount;
+pub const resetMeasureTextCache = cdef.Clay_ResetMeasureTextCache;
+pub const getCurrentContext = cdef.Clay_GetCurrentContext;
+pub const setCurrentContext = cdef.Clay_SetCurrentContext;
 
 /// Closes the UI element that was most recently opened with `clay.open()`.
 pub const close = cdef.Clay__CloseElement;
